@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.UserInfoDao">
+	<resultMap id="UserResultMap" type="com.mfw.entity.UserInfo">
+		<id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="HEAD_IMG" jdbcType="VARCHAR" property="headImg" />
+		<result column="USER_NICK" jdbcType="VARCHAR" property="userNick" />
+		<result column="USER_PASS" jdbcType="VARCHAR" property="userPass" />
+		<result column="USER_GENDER" jdbcType="VARCHAR" property="userGender" />
+		<result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+		<result column="USER_AGE" jdbcType="DECIMAL" property="userAge" />
+		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+		<result column="USER_LEVEL" jdbcType="VARCHAR" property="userLevel" />
+		<result column="IS_VIP" jdbcType="VARCHAR" property="isVip" />
+		<result column="USER_RESUME" jdbcType="VARCHAR" property="userResume" />
+		<result column="USER_SIGNATURE" jdbcType="VARCHAR" property="userSignature" />
+		<result column="IS_ADMIN" jdbcType="VARCHAR" property="isAdmin" />
+		<result column="REGIST_DATE" jdbcType="DATE" property="registDate" />
+		<result column="USER_HONEY" jdbcType="DECIMAL" property="userHoney" />
+		<result column="USER_MONEY" jdbcType="DECIMAL" property="userMoney" />
+	</resultMap>
+	<resultMap extends="UserResultMap" id="UserInfoResultMapWithBLOBs"
+		type="com.mfw.entity.UserInfo">
+		<result column="USER_ICON" jdbcType="BLOB" property="userIcon" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		USER_ID, USER_NAME, USER_NICK, USER_PASS, USER_GENDER, USER_PHONE, USER_AGE,
+		USER_EMAIL,
+		USER_LEVEL, IS_VIP, USER_RESUME, USER_SIGNATURE, IS_ADMIN,
+		REGIST_DATE,HEAD_IMG,USER_HONEY,USER_MONEY
+	</sql>
+	<sql id="Blob_Column_List">
+		USER_ICON
+	</sql>
+
+	<!-- **************************查询用户的信息到我的窝显示****************** -->
+	<select id="selectUserInfo" parameterType="java.lang.Long"
+		resultMap="UserInfoResultMapWithBLOBs">
+		select *
+		from USERINFO
+		where USER_ID = #{userId,jdbcType=DECIMAL}
+	</select>
+
+<!-- **************************用户登录****************** -->
+	<select id="selectUserInfo" parameterType="com.mfw.entity.UserInfo"
+		resultMap="UserInfoResultMapWithBLOBs">
+		select *
+		from USERINFO
+		where USER_NICK = #{userNick,jdbcType=VARCHAR} and USER_PASS=#{userPass,jdbcType=VARCHAR}
+	</select>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from USERINFO
+		where USER_ID = #{userId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.mfw.entity.UserInfo">
+		insert into USERINFO (USER_ID, USER_NAME, USER_NICK,
+		USER_PASS, USER_GENDER, USER_PHONE,
+		USER_AGE, USER_EMAIL, USER_LEVEL,
+		IS_VIP, USER_RESUME, USER_SIGNATURE,
+		IS_ADMIN, REGIST_DATE, USER_ICON
+		)
+		values (#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR},
+		#{userNick,jdbcType=VARCHAR},
+		#{userPass,jdbcType=VARCHAR}, #{userGender,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
+		#{userAge,jdbcType=DECIMAL}, #{userEmail,jdbcType=VARCHAR},
+		#{userLevel,jdbcType=VARCHAR},
+		#{isVip,jdbcType=VARCHAR}, #{userResume,jdbcType=VARCHAR}, #{userSignature,jdbcType=VARCHAR},
+		#{isAdmin,jdbcType=VARCHAR}, #{registDate,jdbcType=DATE},
+		#{userIcon,jdbcType=BLOB}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.mfw.entity.UserInfo">
+		insert into USERINFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="userNick != null">
+				USER_NICK,
+			</if>
+			<if test="userPass != null">
+				USER_PASS,
+			</if>
+			<if test="userGender != null">
+				USER_GENDER,
+			</if>
+			<if test="userPhone != null">
+				USER_PHONE,
+			</if>
+			<if test="userAge != null">
+				USER_AGE,
+			</if>
+			<if test="userEmail != null">
+				USER_EMAIL,
+			</if>
+			<if test="userLevel != null">
+				USER_LEVEL,
+			</if>
+			<if test="isVip != null">
+				IS_VIP,
+			</if>
+			<if test="userResume != null">
+				USER_RESUME,
+			</if>
+			<if test="userSignature != null">
+				USER_SIGNATURE,
+			</if>
+			<if test="isAdmin != null">
+				IS_ADMIN,
+			</if>
+			<if test="registDate != null">
+				REGIST_DATE,
+			</if>
+			<if test="userIcon != null">
+				USER_ICON,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=DECIMAL},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userNick != null">
+				#{userNick,jdbcType=VARCHAR},
+			</if>
+			<if test="userPass != null">
+				#{userPass,jdbcType=VARCHAR},
+			</if>
+			<if test="userGender != null">
+				#{userGender,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				#{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userAge != null">
+				#{userAge,jdbcType=DECIMAL},
+			</if>
+			<if test="userEmail != null">
+				#{userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="userLevel != null">
+				#{userLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="isVip != null">
+				#{isVip,jdbcType=VARCHAR},
+			</if>
+			<if test="userResume != null">
+				#{userResume,jdbcType=VARCHAR},
+			</if>
+			<if test="userSignature != null">
+				#{userSignature,jdbcType=VARCHAR},
+			</if>
+			<if test="isAdmin != null">
+				#{isAdmin,jdbcType=VARCHAR},
+			</if>
+			<if test="registDate != null">
+				#{registDate,jdbcType=DATE},
+			</if>
+			<if test="userIcon != null">
+				#{userIcon,jdbcType=BLOB},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.UserInfo">
+		update USERINFO
+		<set>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userNick != null">
+				USER_NICK = #{userNick,jdbcType=VARCHAR},
+			</if>
+			<if test="userPass != null">
+				USER_PASS = #{userPass,jdbcType=VARCHAR},
+			</if>
+			<if test="userGender != null">
+				USER_GENDER = #{userGender,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userAge != null">
+				USER_AGE = #{userAge,jdbcType=DECIMAL},
+			</if>
+			<if test="userEmail != null">
+				USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="userLevel != null">
+				USER_LEVEL = #{userLevel,jdbcType=VARCHAR},
+			</if>
+			<if test="isVip != null">
+				IS_VIP = #{isVip,jdbcType=VARCHAR},
+			</if>
+			<if test="userResume != null">
+				USER_RESUME = #{userResume,jdbcType=VARCHAR},
+			</if>
+			<if test="userSignature != null">
+				USER_SIGNATURE = #{userSignature,jdbcType=VARCHAR},
+			</if>
+			<if test="isAdmin != null">
+				IS_ADMIN = #{isAdmin,jdbcType=VARCHAR},
+			</if>
+			<if test="registDate != null">
+				REGIST_DATE = #{registDate,jdbcType=DATE},
+			</if>
+			<if test="userIcon != null">
+				USER_ICON = #{userIcon,jdbcType=BLOB},
+			</if>
+		</set>
+		where USER_ID = #{userId,jdbcType=DECIMAL}
+	</update>
+	
+	<!-- 更改用户的个性签名 -->
+	<update id="updateSignature" parameterType="com.mfw.entity.UserInfo">
+		update USERINFO
+		set
+		USER_SIGNATURE = #{userSignature,jdbcType=VARCHAR}
+		where USER_ID = #{userId,jdbcType=DECIMAL}
+	</update>
+	
+</mapper>

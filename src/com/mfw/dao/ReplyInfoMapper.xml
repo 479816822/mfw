@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.ReplyInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.ReplyInfo">
+    <id column="REPLY_ID" jdbcType="DECIMAL" property="replyId" />
+    <result column="REPLY_MSG" jdbcType="VARCHAR" property="replyMsg" />
+    <result column="REPLY_DATE" jdbcType="DATE" property="replyDate" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="TRA_ID" jdbcType="DECIMAL" property="traId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    REPLY_ID, REPLY_MSG, REPLY_DATE, USER_ID, TRA_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from REPLYINFO
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from REPLYINFO
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.ReplyInfo">
+    insert into REPLYINFO (REPLY_ID, REPLY_MSG, REPLY_DATE, 
+      USER_ID, TRA_ID)
+    values (#{replyId,jdbcType=DECIMAL}, #{replyMsg,jdbcType=VARCHAR}, #{replyDate,jdbcType=DATE}, 
+      #{userId,jdbcType=DECIMAL}, #{traId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.ReplyInfo">
+    insert into REPLYINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        REPLY_ID,
+      </if>
+      <if test="replyMsg != null">
+        REPLY_MSG,
+      </if>
+      <if test="replyDate != null">
+        REPLY_DATE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="traId != null">
+        TRA_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replyId != null">
+        #{replyId,jdbcType=DECIMAL},
+      </if>
+      <if test="replyMsg != null">
+        #{replyMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDate != null">
+        #{replyDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="traId != null">
+        #{traId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.ReplyInfo">
+    update REPLYINFO
+    <set>
+      <if test="replyMsg != null">
+        REPLY_MSG = #{replyMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="replyDate != null">
+        REPLY_DATE = #{replyDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="traId != null">
+        TRA_ID = #{traId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.ReplyInfo">
+    update REPLYINFO
+    set REPLY_MSG = #{replyMsg,jdbcType=VARCHAR},
+      REPLY_DATE = #{replyDate,jdbcType=DATE},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      TRA_ID = #{traId,jdbcType=DECIMAL}
+    where REPLY_ID = #{replyId,jdbcType=DECIMAL}
+  </update>
+</mapper>

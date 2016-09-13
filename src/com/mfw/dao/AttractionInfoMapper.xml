@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.AttractionInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.AttractionInfo">
+    <id column="ATTR_ID" jdbcType="DECIMAL" property="attrId" />
+    <result column="THREE_ID" jdbcType="DECIMAL" property="threeId" />
+    <result column="ATTR_NAME" jdbcType="VARCHAR" property="attrName" />
+    <result column="ATTR_INTRODUCE" jdbcType="VARCHAR" property="attrIntroduce" />
+    <result column="ATTR_ROUTE" jdbcType="VARCHAR" property="attrRoute" />
+    <result column="ATTR_IMG" jdbcType="VARCHAR" property="attrImg" />
+    <result column="ATTR_TRAFFIC" jdbcType="VARCHAR" property="attrTraffic" />
+    <result column="ATTR_ACCOMMODATION" jdbcType="VARCHAR" property="attrAccommodation" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ATTR_ID, THREE_ID, ATTR_NAME, ATTR_INTRODUCE, ATTR_ROUTE, ATTR_IMG, ATTR_TRAFFIC, 
+    ATTR_ACCOMMODATION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ATTRACTIONINFO
+    where ATTR_ID = #{attrId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ATTRACTIONINFO
+    where ATTR_ID = #{attrId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.AttractionInfo">
+    insert into ATTRACTIONINFO (ATTR_ID, THREE_ID, ATTR_NAME, 
+      ATTR_INTRODUCE, ATTR_ROUTE, ATTR_IMG, 
+      ATTR_TRAFFIC, ATTR_ACCOMMODATION)
+    values (#{attrId,jdbcType=DECIMAL}, #{threeId,jdbcType=DECIMAL}, #{attrName,jdbcType=VARCHAR}, 
+      #{attrIntroduce,jdbcType=VARCHAR}, #{attrRoute,jdbcType=VARCHAR}, #{attrImg,jdbcType=VARCHAR}, 
+      #{attrTraffic,jdbcType=VARCHAR}, #{attrAccommodation,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.AttractionInfo">
+    insert into ATTRACTIONINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attrId != null">
+        ATTR_ID,
+      </if>
+      <if test="threeId != null">
+        THREE_ID,
+      </if>
+      <if test="attrName != null">
+        ATTR_NAME,
+      </if>
+      <if test="attrIntroduce != null">
+        ATTR_INTRODUCE,
+      </if>
+      <if test="attrRoute != null">
+        ATTR_ROUTE,
+      </if>
+      <if test="attrImg != null">
+        ATTR_IMG,
+      </if>
+      <if test="attrTraffic != null">
+        ATTR_TRAFFIC,
+      </if>
+      <if test="attrAccommodation != null">
+        ATTR_ACCOMMODATION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attrId != null">
+        #{attrId,jdbcType=DECIMAL},
+      </if>
+      <if test="threeId != null">
+        #{threeId,jdbcType=DECIMAL},
+      </if>
+      <if test="attrName != null">
+        #{attrName,jdbcType=VARCHAR},
+      </if>
+      <if test="attrIntroduce != null">
+        #{attrIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="attrRoute != null">
+        #{attrRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="attrImg != null">
+        #{attrImg,jdbcType=VARCHAR},
+      </if>
+      <if test="attrTraffic != null">
+        #{attrTraffic,jdbcType=VARCHAR},
+      </if>
+      <if test="attrAccommodation != null">
+        #{attrAccommodation,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.AttractionInfo">
+    update ATTRACTIONINFO
+    <set>
+      <if test="threeId != null">
+        THREE_ID = #{threeId,jdbcType=DECIMAL},
+      </if>
+      <if test="attrName != null">
+        ATTR_NAME = #{attrName,jdbcType=VARCHAR},
+      </if>
+      <if test="attrIntroduce != null">
+        ATTR_INTRODUCE = #{attrIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="attrRoute != null">
+        ATTR_ROUTE = #{attrRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="attrImg != null">
+        ATTR_IMG = #{attrImg,jdbcType=VARCHAR},
+      </if>
+      <if test="attrTraffic != null">
+        ATTR_TRAFFIC = #{attrTraffic,jdbcType=VARCHAR},
+      </if>
+      <if test="attrAccommodation != null">
+        ATTR_ACCOMMODATION = #{attrAccommodation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ATTR_ID = #{attrId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.AttractionInfo">
+    update ATTRACTIONINFO
+    set THREE_ID = #{threeId,jdbcType=DECIMAL},
+      ATTR_NAME = #{attrName,jdbcType=VARCHAR},
+      ATTR_INTRODUCE = #{attrIntroduce,jdbcType=VARCHAR},
+      ATTR_ROUTE = #{attrRoute,jdbcType=VARCHAR},
+      ATTR_IMG = #{attrImg,jdbcType=VARCHAR},
+      ATTR_TRAFFIC = #{attrTraffic,jdbcType=VARCHAR},
+      ATTR_ACCOMMODATION = #{attrAccommodation,jdbcType=VARCHAR}
+    where ATTR_ID = #{attrId,jdbcType=DECIMAL}
+  </update>
+</mapper>

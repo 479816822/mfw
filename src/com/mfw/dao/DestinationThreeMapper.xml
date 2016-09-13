@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.DestinationThreeMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.DestinationThree">
+    <id column="THREE_ID" jdbcType="DECIMAL" property="threeId" />
+    <result column="TWO_ID" jdbcType="DECIMAL" property="twoId" />
+    <result column="THREE_AREA" jdbcType="VARCHAR" property="threeArea" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    THREE_ID, TWO_ID, THREE_AREA
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DESTINATION_THREE
+    where THREE_ID = #{threeId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from DESTINATION_THREE
+    where THREE_ID = #{threeId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.DestinationThree">
+    insert into DESTINATION_THREE (THREE_ID, TWO_ID, THREE_AREA
+      )
+    values (#{threeId,jdbcType=DECIMAL}, #{twoId,jdbcType=DECIMAL}, #{threeArea,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.DestinationThree">
+    insert into DESTINATION_THREE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="threeId != null">
+        THREE_ID,
+      </if>
+      <if test="twoId != null">
+        TWO_ID,
+      </if>
+      <if test="threeArea != null">
+        THREE_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="threeId != null">
+        #{threeId,jdbcType=DECIMAL},
+      </if>
+      <if test="twoId != null">
+        #{twoId,jdbcType=DECIMAL},
+      </if>
+      <if test="threeArea != null">
+        #{threeArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.DestinationThree">
+    update DESTINATION_THREE
+    <set>
+      <if test="twoId != null">
+        TWO_ID = #{twoId,jdbcType=DECIMAL},
+      </if>
+      <if test="threeArea != null">
+        THREE_AREA = #{threeArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where THREE_ID = #{threeId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.DestinationThree">
+    update DESTINATION_THREE
+    set TWO_ID = #{twoId,jdbcType=DECIMAL},
+      THREE_AREA = #{threeArea,jdbcType=VARCHAR}
+    where THREE_ID = #{threeId,jdbcType=DECIMAL}
+  </update>
+</mapper>

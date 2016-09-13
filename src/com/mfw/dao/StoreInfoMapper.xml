@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.StoreInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.StoreInfo">
+    <id column="PRO_ID" jdbcType="DECIMAL" property="proId" />
+    <result column="PRO_NAME" jdbcType="VARCHAR" property="proName" />
+    <result column="CATEGORY_ID" jdbcType="DECIMAL" property="categoryId" />
+    <result column="PRO_PRICE" jdbcType="DECIMAL" property="proPrice" />
+    <result column="PRO_STOCK" jdbcType="DECIMAL" property="proStock" />
+    <result column="PRO_DES" jdbcType="VARCHAR" property="proDes" />
+    <result column="PRO_IMG" jdbcType="VARCHAR" property="proImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PRO_ID, PRO_NAME, CATEGORY_ID, PRO_PRICE, PRO_STOCK, PRO_DES, PRO_IMG
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from STOREINFO
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from STOREINFO
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.StoreInfo">
+    insert into STOREINFO (PRO_ID, PRO_NAME, CATEGORY_ID, 
+      PRO_PRICE, PRO_STOCK, PRO_DES, 
+      PRO_IMG)
+    values (#{proId,jdbcType=DECIMAL}, #{proName,jdbcType=VARCHAR}, #{categoryId,jdbcType=DECIMAL}, 
+      #{proPrice,jdbcType=DECIMAL}, #{proStock,jdbcType=DECIMAL}, #{proDes,jdbcType=VARCHAR}, 
+      #{proImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.StoreInfo">
+    insert into STOREINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        PRO_ID,
+      </if>
+      <if test="proName != null">
+        PRO_NAME,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="proPrice != null">
+        PRO_PRICE,
+      </if>
+      <if test="proStock != null">
+        PRO_STOCK,
+      </if>
+      <if test="proDes != null">
+        PRO_DES,
+      </if>
+      <if test="proImg != null">
+        PRO_IMG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        #{proId,jdbcType=DECIMAL},
+      </if>
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="proPrice != null">
+        #{proPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="proStock != null">
+        #{proStock,jdbcType=DECIMAL},
+      </if>
+      <if test="proDes != null">
+        #{proDes,jdbcType=VARCHAR},
+      </if>
+      <if test="proImg != null">
+        #{proImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.StoreInfo">
+    update STOREINFO
+    <set>
+      <if test="proName != null">
+        PRO_NAME = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="proPrice != null">
+        PRO_PRICE = #{proPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="proStock != null">
+        PRO_STOCK = #{proStock,jdbcType=DECIMAL},
+      </if>
+      <if test="proDes != null">
+        PRO_DES = #{proDes,jdbcType=VARCHAR},
+      </if>
+      <if test="proImg != null">
+        PRO_IMG = #{proImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.StoreInfo">
+    update STOREINFO
+    set PRO_NAME = #{proName,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},
+      PRO_PRICE = #{proPrice,jdbcType=DECIMAL},
+      PRO_STOCK = #{proStock,jdbcType=DECIMAL},
+      PRO_DES = #{proDes,jdbcType=VARCHAR},
+      PRO_IMG = #{proImg,jdbcType=VARCHAR}
+    where PRO_ID = #{proId,jdbcType=DECIMAL}
+  </update>
+</mapper>

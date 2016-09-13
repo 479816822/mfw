@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.TravelDetailsDao">
+	<!-- 扩展的游记内容 -->
+
+	<resultMap id="TrackResultMap" type="com.mfw.entity.TravelInfo">
+		<id column="TRA_ID" jdbcType="DECIMAL" property="traId" />
+		<result column="VIEW_NAME" jdbcType="VARCHAR" property="viewName" />
+		<result column="TRA_TITLE" jdbcType="VARCHAR" property="traTitle" />
+		<result column="TRA_IMG" jdbcType="VARCHAR" property="traImg" />
+		<result column="TRA_ADDRESS" jdbcType="VARCHAR" property="traAddress" />
+		<result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
+		<result column="TRA_PRAISE" jdbcType="DECIMAL" property="traPraise" />
+		<result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+	</resultMap>
+
+	<!-- 游记段落的详情 -->
+	<resultMap id="TravelDetailsResultMap" type="com.mfw.entity.TravelDetails">
+		<id column="TRADETAILS_ID" jdbcType="DECIMAL" property="tradetailsId" />
+		<result column="PARAGRAPH_NAME" jdbcType="VARCHAR" property="paragraphName" />
+		<result column="TRA_IMG" jdbcType="VARCHAR" property="traImg" />
+		<collection property="travel" resultMap="TrackResultMap" />
+	</resultMap>
+	<resultMap extends="TravelDetailsResultMap" id="TravelDetailsResultMapWithBLOBs"
+		type="com.mfw.entity.TravelDetails">
+		<result column="TRA_MSG" jdbcType="CLOB" property="traMsg" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		TRADETAILS_ID, PARAGRAPH_NAME, TRA_IMG, TRA_ID
+	</sql>
+	<sql id="Blob_Column_List">
+		TRA_MSG
+	</sql>
+
+	<!-- 查询指定游记的详情 -->
+	<select id="selectTravel" parameterType="java.lang.Long"
+		resultMap="TravelDetailsResultMapWithBLOBs">
+		select
+		*
+		from TRAVELDETAILS t1,TRAVELINFO t2 
+		where t1.TRA_ID = #{param1,jdbcType=DECIMAL} and t1.TRA_ID=t2.TRA_ID
+	</select>
+
+
+
+
+</mapper>

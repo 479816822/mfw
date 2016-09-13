@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.DestinationOneMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.DestinationOne">
+    <id column="ONE_ID" jdbcType="DECIMAL" property="oneId" />
+    <result column="ONE_AREA" jdbcType="VARCHAR" property="oneArea" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ONE_ID, ONE_AREA
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DESTINATION_ONE
+    where ONE_ID = #{oneId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from DESTINATION_ONE
+    where ONE_ID = #{oneId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.DestinationOne">
+    insert into DESTINATION_ONE (ONE_ID, ONE_AREA)
+    values (#{oneId,jdbcType=DECIMAL}, #{oneArea,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.DestinationOne">
+    insert into DESTINATION_ONE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oneId != null">
+        ONE_ID,
+      </if>
+      <if test="oneArea != null">
+        ONE_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oneId != null">
+        #{oneId,jdbcType=DECIMAL},
+      </if>
+      <if test="oneArea != null">
+        #{oneArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.DestinationOne">
+    update DESTINATION_ONE
+    <set>
+      <if test="oneArea != null">
+        ONE_AREA = #{oneArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ONE_ID = #{oneId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.DestinationOne">
+    update DESTINATION_ONE
+    set ONE_AREA = #{oneArea,jdbcType=VARCHAR}
+    where ONE_ID = #{oneId,jdbcType=DECIMAL}
+  </update>
+</mapper>

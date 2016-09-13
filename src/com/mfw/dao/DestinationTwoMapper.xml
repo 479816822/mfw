@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.DestinationTwoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.DestinationTwo">
+    <id column="TWO_ID" jdbcType="DECIMAL" property="twoId" />
+    <result column="ONE_ID" jdbcType="DECIMAL" property="oneId" />
+    <result column="TWO_AREA" jdbcType="VARCHAR" property="twoArea" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TWO_ID, ONE_ID, TWO_AREA
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DESTINATION_TWO
+    where TWO_ID = #{twoId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from DESTINATION_TWO
+    where TWO_ID = #{twoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.DestinationTwo">
+    insert into DESTINATION_TWO (TWO_ID, ONE_ID, TWO_AREA
+      )
+    values (#{twoId,jdbcType=DECIMAL}, #{oneId,jdbcType=DECIMAL}, #{twoArea,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.DestinationTwo">
+    insert into DESTINATION_TWO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="twoId != null">
+        TWO_ID,
+      </if>
+      <if test="oneId != null">
+        ONE_ID,
+      </if>
+      <if test="twoArea != null">
+        TWO_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="twoId != null">
+        #{twoId,jdbcType=DECIMAL},
+      </if>
+      <if test="oneId != null">
+        #{oneId,jdbcType=DECIMAL},
+      </if>
+      <if test="twoArea != null">
+        #{twoArea,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.DestinationTwo">
+    update DESTINATION_TWO
+    <set>
+      <if test="oneId != null">
+        ONE_ID = #{oneId,jdbcType=DECIMAL},
+      </if>
+      <if test="twoArea != null">
+        TWO_AREA = #{twoArea,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TWO_ID = #{twoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.DestinationTwo">
+    update DESTINATION_TWO
+    set ONE_ID = #{oneId,jdbcType=DECIMAL},
+      TWO_AREA = #{twoArea,jdbcType=VARCHAR}
+    where TWO_ID = #{twoId,jdbcType=DECIMAL}
+  </update>
+</mapper>

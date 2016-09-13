@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.CategoryInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.CategoryInfo">
+    <id column="CATEGORY_ID" jdbcType="DECIMAL" property="categoryId" />
+    <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CATEGORY_ID, CATEGORY_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CATEGORYINFO
+    where CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from CATEGORYINFO
+    where CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.CategoryInfo">
+    insert into CATEGORYINFO (CATEGORY_ID, CATEGORY_NAME)
+    values (#{categoryId,jdbcType=DECIMAL}, #{categoryName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.CategoryInfo">
+    insert into CATEGORYINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=DECIMAL},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.CategoryInfo">
+    update CATEGORYINFO
+    <set>
+      <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.CategoryInfo">
+    update CATEGORYINFO
+    set CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR}
+    where CATEGORY_ID = #{categoryId,jdbcType=DECIMAL}
+  </update>
+</mapper>

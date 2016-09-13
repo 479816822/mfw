@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.TravelInfoDao">
+
+	<!-- 用户的扩展表 -->
+	<resultMap id="UserResultMap" type="com.mfw.entity.UserInfo">
+		<id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="HEAD_IMG" jdbcType="VARCHAR" property="headImg" />
+		<result column="USER_NICK" jdbcType="VARCHAR" property="userNick" />
+		<result column="USER_PASS" jdbcType="VARCHAR" property="userPass" />
+		<result column="USER_GENDER" jdbcType="VARCHAR" property="userGender" />
+		<result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+		<result column="USER_AGE" jdbcType="DECIMAL" property="userAge" />
+		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+		<result column="USER_LEVEL" jdbcType="VARCHAR" property="userLevel" />
+		<result column="IS_VIP" jdbcType="VARCHAR" property="isVip" />
+		<result column="USER_RESUME" jdbcType="VARCHAR" property="userResume" />
+		<result column="USER_SIGNATURE" jdbcType="VARCHAR" property="userSignature" />
+		<result column="IS_ADMIN" jdbcType="VARCHAR" property="isAdmin" />
+		<result column="REGIST_DATE" jdbcType="DATE" property="registDate" />
+	</resultMap>
+	<resultMap extends="UserResultMap" id="UserInfoResultMapWithBLOBs"
+		type="com.mfw.entity.UserInfo">
+		<result column="USER_ICON" jdbcType="BLOB" property="userIcon" />
+	</resultMap>
+
+	<!-- 游记的主要内容表 -->
+
+	<resultMap id="TravelResultMap" type="com.mfw.entity.TravelInfo">
+		<id column="TRA_ID" jdbcType="DECIMAL" property="traId" />
+		<result column="VIEW_NAME" jdbcType="VARCHAR" property="viewName" />
+		<result column="TRA_TITLE" jdbcType="VARCHAR" property="traTitle" />
+		<result column="TRA_IMG" jdbcType="VARCHAR" property="traImg" />
+		<result column="TRA_ADDRESS" jdbcType="VARCHAR" property="traAddress" />
+		<result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
+		<result column="TRA_PRAISE" jdbcType="DECIMAL" property="traPraise" />
+		<result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+		<collection property="user" resultMap="UserInfoResultMapWithBLOBs" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		TRA_ID, USER_ID, VIEW_NAME, TRA_TITLE, TRA_IMG, TRA_ADDRESS, SEND_DATE,
+		TRA_PRAISE,
+		KEY_WORD
+	</sql>
+
+	<!-- 查询用户的所有游记内容 -->
+	<select id="selectAllTravel" parameterType="java.lang.Long"
+		resultMap="TravelResultMap">
+		select *
+		from TRAVELINFO
+		where USER_ID = #{param1,jdbcType=DECIMAL}
+	</select>
+
+
+	<!-- 更新用户的赞*************************** -->
+	<update id="updatePraise" parameterType="com.mfw.entity.TravelInfo">
+		update TRAVELINFO
+		set
+		TRA_PRAISE=#{traPraise,jdbcType=DECIMAL}
+		where TRA_ID = #{traId,jdbcType=DECIMAL}
+	</update>
+</mapper>

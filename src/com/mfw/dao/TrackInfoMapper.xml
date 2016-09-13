@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.TrackInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.TrackInfo">
+    <id column="C" jdbcType="DECIMAL" property="c" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="VIEW_NAME" jdbcType="VARCHAR" property="viewName" />
+    <result column="VISIT_DATE" jdbcType="DATE" property="visitDate" />
+    <result column="TRACK_IMG" jdbcType="VARCHAR" property="trackImg" />
+    <result column="TRACK_COUNTRY" jdbcType="VARCHAR" property="trackCountry" />
+    <result column="TRACK_CITY" jdbcType="VARCHAR" property="trackCity" />
+    <result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    C, USER_ID, VIEW_NAME, VISIT_DATE, TRACK_IMG, TRACK_COUNTRY, TRACK_CITY, KEY_WORD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TRACKINFO
+    where C = #{c,jdbcType=DECIMAL}
+  </select>
+  
+
+</mapper>

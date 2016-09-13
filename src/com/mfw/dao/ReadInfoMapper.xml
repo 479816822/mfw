@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.ReadInfoMapper">
+  <resultMap id="BaseResultMap" type="com.mfw.entity.ReadInfo">
+    <id column="READ_ID" jdbcType="DECIMAL" property="readId" />
+    <result column="READ_DATE" jdbcType="DATE" property="readDate" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="TRA_ID" jdbcType="DECIMAL" property="traId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    READ_ID, READ_DATE, USER_ID, TRA_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from READINFO
+    where READ_ID = #{readId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from READINFO
+    where READ_ID = #{readId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.mfw.entity.ReadInfo">
+    insert into READINFO (READ_ID, READ_DATE, USER_ID, 
+      TRA_ID)
+    values (#{readId,jdbcType=DECIMAL}, #{readDate,jdbcType=DATE}, #{userId,jdbcType=DECIMAL}, 
+      #{traId,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mfw.entity.ReadInfo">
+    insert into READINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="readId != null">
+        READ_ID,
+      </if>
+      <if test="readDate != null">
+        READ_DATE,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="traId != null">
+        TRA_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="readId != null">
+        #{readId,jdbcType=DECIMAL},
+      </if>
+      <if test="readDate != null">
+        #{readDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="traId != null">
+        #{traId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.ReadInfo">
+    update READINFO
+    <set>
+      <if test="readDate != null">
+        READ_DATE = #{readDate,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="traId != null">
+        TRA_ID = #{traId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where READ_ID = #{readId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mfw.entity.ReadInfo">
+    update READINFO
+    set READ_DATE = #{readDate,jdbcType=DATE},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      TRA_ID = #{traId,jdbcType=DECIMAL}
+    where READ_ID = #{readId,jdbcType=DECIMAL}
+  </update>
+</mapper>

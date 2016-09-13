@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.AnswerInfoDao">
+	<!-- 回答者的信息 -->
+	<resultMap id="UserResultMap" type="com.mfw.entity.UserInfo">
+		<id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="HEAD_IMG" jdbcType="VARCHAR" property="headImg" />
+		<result column="USER_NICK" jdbcType="VARCHAR" property="userNick" />
+		<result column="USER_PASS" jdbcType="VARCHAR" property="userPass" />
+		<result column="USER_GENDER" jdbcType="VARCHAR" property="userGender" />
+		<result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+		<result column="USER_AGE" jdbcType="DECIMAL" property="userAge" />
+		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+		<result column="USER_LEVEL" jdbcType="VARCHAR" property="userLevel" />
+		<result column="IS_VIP" jdbcType="VARCHAR" property="isVip" />
+		<result column="USER_RESUME" jdbcType="VARCHAR" property="userResume" />
+		<result column="USER_SIGNATURE" jdbcType="VARCHAR" property="userSignature" />
+		<result column="IS_ADMIN" jdbcType="VARCHAR" property="isAdmin" />
+		<result column="REGIST_DATE" jdbcType="DATE" property="registDate" />
+		<result column="USER_HONEY" jdbcType="DECIMAL" property="userHoney" />
+		<result column="USER_MONEY" jdbcType="DECIMAL" property="userMoney" />
+	</resultMap>
+	<resultMap extends="UserResultMap" id="UserInfoResultMapWithBLOBs"
+		type="com.mfw.entity.UserInfo">
+		<result column="USER_ICON" jdbcType="BLOB" property="userIcon" />
+	</resultMap>
+	<!-- 问题者的答案的信息 -->
+	<resultMap id="QuestionResultMap" type="com.mfw.entity.QuestionInfo">
+		<id column="QUES_ID" jdbcType="DECIMAL" property="quesId" />
+		<result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
+		<result column="QUES_MES" jdbcType="VARCHAR" property="quesMes" />
+		<result column="IS_ANSWERED" jdbcType="VARCHAR" property="isAnswered" />
+		<result column="KEY_WORD" jdbcType="VARCHAR" property="keyWord" />
+		<result column="QUES_PRAISE" jdbcType="DECIMAL" property="quesPraise" />
+		<result column="QUES_BROWSE" jdbcType="DECIMAL" property="quesBrowse" />
+		<collection property="questioner" resultMap="UserInfoResultMapWithBLOBs" />
+	</resultMap>
+
+	<!-- 回答者的详细的信息 -->
+	<resultMap id="AnswerResultMap" type="com.mfw.entity.AnswerInfo">
+		<id column="ANSWER_ID" jdbcType="DECIMAL" property="answerId" />
+		<result column="SEND_DATE" jdbcType="DATE" property="sendDate" />
+		<result column="ANSWER_MSG" jdbcType="VARCHAR" property="answerMsg" />
+		<collection property="question" resultMap="QuestionResultMap" />
+		<collection property="answerUser" resultMap="UserInfoResultMapWithBLOBs" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ANSWER_ID, SEND_DATE, QUES_ID, ANSWER_USER_ID, ANSWER_MSG
+	</sql>
+
+	<!-- 查询用户所有回答过的问题和全部的详细的信息 -->
+	<select id="selectAllNews" parameterType="java.lang.Long"
+		resultMap="AnswerResultMap">
+		select *
+		from ANSWERINFO a,QuestionInfo q,UserInfo u
+		where
+		ANSWER_USER_ID=#{param1,jdbcType=DECIMAL} and  a.ques_id=q.ques_id and q.questioner_id=u.user_id
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		ANSWERINFO
+		where ANSWER_ID = #{answerId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.mfw.entity.AnswerInfo">
+		insert into ANSWERINFO
+		(ANSWER_ID, SEND_DATE, QUES_ID,
+		ANSWER_USER_ID, ANSWER_MSG)
+		values
+		(#{answerId,jdbcType=DECIMAL}, #{sendDate,jdbcType=DATE},
+		#{quesId,jdbcType=DECIMAL},
+		#{answerUserId,jdbcType=DECIMAL},
+		#{answerMsg,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mfw.entity.AnswerInfo">
+		insert into ANSWERINFO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="answerId != null">
+				ANSWER_ID,
+			</if>
+			<if test="sendDate != null">
+				SEND_DATE,
+			</if>
+			<if test="quesId != null">
+				QUES_ID,
+			</if>
+			<if test="answerUserId != null">
+				ANSWER_USER_ID,
+			</if>
+			<if test="answerMsg != null">
+				ANSWER_MSG,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="answerId != null">
+				#{answerId,jdbcType=DECIMAL},
+			</if>
+			<if test="sendDate != null">
+				#{sendDate,jdbcType=DATE},
+			</if>
+			<if test="quesId != null">
+				#{quesId,jdbcType=DECIMAL},
+			</if>
+			<if test="answerUserId != null">
+				#{answerUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="answerMsg != null">
+				#{answerMsg,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.AnswerInfo">
+		update ANSWERINFO
+		<set>
+			<if test="sendDate != null">
+				SEND_DATE = #{sendDate,jdbcType=DATE},
+			</if>
+			<if test="quesId != null">
+				QUES_ID = #{quesId,jdbcType=DECIMAL},
+			</if>
+			<if test="answerUserId != null">
+				ANSWER_USER_ID = #{answerUserId,jdbcType=DECIMAL},
+			</if>
+			<if test="answerMsg != null">
+				ANSWER_MSG = #{answerMsg,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ANSWER_ID = #{answerId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mfw.entity.AnswerInfo">
+		update ANSWERINFO
+		set SEND_DATE = #{sendDate,jdbcType=DATE},
+		QUES_ID =
+		#{quesId,jdbcType=DECIMAL},
+		ANSWER_USER_ID =
+		#{answerUserId,jdbcType=DECIMAL},
+		ANSWER_MSG =
+		#{answerMsg,jdbcType=VARCHAR}
+		where ANSWER_ID =
+		#{answerId,jdbcType=DECIMAL}
+	</update>
+</mapper>

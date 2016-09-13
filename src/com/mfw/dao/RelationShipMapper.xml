@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mfw.dao.RelationShipDao">
+
+	<!-- 扩展的userinfo -->
+	<resultMap id="UserResultMap" type="com.mfw.entity.UserInfo">
+		<id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="HEAD_IMG" jdbcType="VARCHAR" property="headImg" />
+		<result column="USER_NICK" jdbcType="VARCHAR" property="userNick" />
+		<result column="USER_PASS" jdbcType="VARCHAR" property="userPass" />
+		<result column="USER_GENDER" jdbcType="VARCHAR" property="userGender" />
+		<result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+		<result column="USER_AGE" jdbcType="DECIMAL" property="userAge" />
+		<result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+		<result column="USER_LEVEL" jdbcType="VARCHAR" property="userLevel" />
+		<result column="IS_VIP" jdbcType="VARCHAR" property="isVip" />
+		<result column="USER_RESUME" jdbcType="VARCHAR" property="userResume" />
+		<result column="USER_SIGNATURE" jdbcType="VARCHAR" property="userSignature" />
+		<result column="IS_ADMIN" jdbcType="VARCHAR" property="isAdmin" />
+		<result column="REGIST_DATE" jdbcType="DATE" property="registDate" />
+	</resultMap>
+	<resultMap extends="UserResultMap" id="UserInfoResultMapWithBLOBs"
+		type="com.mfw.entity.UserInfo">
+		<result column="USER_ICON" jdbcType="BLOB" property="userIcon" />
+	</resultMap>
+
+	<!-- 关系表 -->
+
+	<resultMap id="RelationResultMap" type="com.mfw.entity.RelationShip">
+		<id column="REL_ID" jdbcType="DECIMAL" property="relId" />
+		<collection property="followed" resultMap="UserInfoResultMapWithBLOBs" />
+		<collection property="fans" resultMap="UserInfoResultMapWithBLOBs" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		REL_ID, FOLLOWED_ID, FANS_ID
+	</sql>
+	<!-- 查询用户的关系  -->
+	<!-- 查询用户的粉丝 -->
+	<select id="selectFollowed" parameterType="java.lang.Long"
+		resultMap="RelationResultMap">
+		select *
+		from RELATIONSHIP
+		where FOLLOWED_ID = #{followed.userId,jdbcType=DECIMAL}
+	</select>
+	<!-- 查询用户的关系  -->
+	<!-- 查询用户的关注者 -->
+	<select id="selectFans" parameterType="java.lang.Long"
+		resultMap="RelationResultMap">
+		select *
+		from RELATIONSHIP
+		where FANS_ID = #{followed.userId,jdbcType=DECIMAL}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from RELATIONSHIP
+		where REL_ID = #{relId,jdbcType=DECIMAL}
+	</delete>
+	<insert id="insert" parameterType="com.mfw.entity.RelationShip">
+		insert into RELATIONSHIP (REL_ID, FOLLOWED_ID, FANS_ID
+		)
+		values (#{relId,jdbcType=DECIMAL}, #{followedId,jdbcType=DECIMAL},
+		#{fansId,jdbcType=DECIMAL}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.mfw.entity.RelationShip">
+		insert into RELATIONSHIP
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="relId != null">
+				REL_ID,
+			</if>
+			<if test="followedId != null">
+				FOLLOWED_ID,
+			</if>
+			<if test="fansId != null">
+				FANS_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="relId != null">
+				#{relId,jdbcType=DECIMAL},
+			</if>
+			<if test="followedId != null">
+				#{followedId,jdbcType=DECIMAL},
+			</if>
+			<if test="fansId != null">
+				#{fansId,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mfw.entity.RelationShip">
+		update RELATIONSHIP
+		<set>
+			<if test="followedId != null">
+				FOLLOWED_ID = #{followedId,jdbcType=DECIMAL},
+			</if>
+			<if test="fansId != null">
+				FANS_ID = #{fansId,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where REL_ID = #{relId,jdbcType=DECIMAL}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mfw.entity.RelationShip">
+		update RELATIONSHIP
+		set FOLLOWED_ID = #{followedId,jdbcType=DECIMAL},
+		FANS_ID = #{fansId,jdbcType=DECIMAL}
+		where REL_ID = #{relId,jdbcType=DECIMAL}
+	</update>
+</mapper>
